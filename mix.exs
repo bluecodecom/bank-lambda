@@ -45,7 +45,8 @@ defmodule BankLambda.MixProject do
       {:plug_cowboy, "~> 2.0", override: true},
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 0.12"},
-      {:phoenix_oauth2_provider, "~> 0.4.1"}
+      {:phoenix_oauth2_provider, "~> 0.4.1"},
+      {:money, "~> 1.4"}
     ]
   end
 

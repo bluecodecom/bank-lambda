@@ -2,6 +2,7 @@ defmodule BankLambdaWeb.Api.V1.PaymentController do
   use BankLambdaWeb, :controller
 
   alias BankLambda.Accounts.User
+  alias BankLambda.Payments.Payment
 
   # parameters:
   # debtorAccount: %{iban: acct.iban},
@@ -26,6 +27,12 @@ defmodule BankLambdaWeb.Api.V1.PaymentController do
     # Processor.payment(acct, amt, merchant_iban)
 
     pmt_id = "pmt_#{:crypto.rand_uniform(100_000, 1_000_000)}"
+
+    payment = params["instructedAmount"]
+
+    %Payment{}
+    |> Payment.changeset(payment)
+    |> BankLambda.Repo.insert!()
 
     conn
     |> put_status(201)

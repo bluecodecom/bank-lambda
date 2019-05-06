@@ -1,2 +1,17 @@
-<h1>BankLambda</h1>
-<h3>User Dashboard <%= @current_user.email %> <h3>
+<h1>Your recent transactions</h1>
+
+<table>
+  <%= for transaction <- @transactions do %>
+    <tr>
+      <td>
+        <%= transaction.inserted_at |> Date.to_string %>
+        <div class="small text-secondary">
+          <%= transaction.inserted_at |> Time.to_string %>
+        </div>
+      </td>
+      <td class="text-right">
+        <%= Money.new(transaction.amount, :EUR) |> Money.to_string() %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -6,7 +6,11 @@ defmodule BankLambdaWeb.DashboardController do
   plug :log_in when action in [:index]
 
   def index(%{assigns: %{current_user: current_user}} = conn, _params) do
-    render(conn, "index.html", current_user: current_user)
+    transactions =
+      BankLambda.Payments.Payment
+      |> BankLambda.Repo.all()
+
+    render(conn, "index.html", current_user: current_user, transactions: transactions)
   end
 
   defp log_in(%{assigns: %{current_user: %User{}}} = conn, _opts) do
