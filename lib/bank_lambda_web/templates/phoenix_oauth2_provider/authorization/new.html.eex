@@ -27,3 +27,5 @@
     <%= submit "Deny" %>
   <% end %>
 </div>
+
+<div>You will be now redirecred to the Bluecode Connecter</div>

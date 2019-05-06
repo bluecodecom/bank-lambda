@@ -10,6 +10,7 @@
   <body>
     <header>
       <section class="container">
+        <h1>LAMBDA BANK</h1>
       </section>
     </header>
     <main role="main" class="container">
