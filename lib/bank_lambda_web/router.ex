@@ -3,72 +3,72 @@ defmodule BankLambdaWeb.Router do
   use PhoenixOauth2Provider.Router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   pipeline :api_auth do
-    plug ExOauth2Provider.Plug.VerifyHeader, realm: "Bearer"
-    plug ExOauth2Provider.Plug.EnsureAuthenticated
+    plug(ExOauth2Provider.Plug.VerifyHeader, realm: "Bearer")
+    plug(ExOauth2Provider.Plug.EnsureAuthenticated)
   end
 
   pipeline :protected do
-    plug BankLambdaWeb.RedirectPlug
+    plug(BankLambdaWeb.RedirectPlug)
   end
 
   pipeline :user do
-    plug BankLambdaWeb.SessionPlug
+    plug(BankLambdaWeb.SessionPlug)
   end
 
   pipeline :oauth_public do
-    plug :put_secure_browser_headers
+    plug(:put_secure_browser_headers)
   end
 
   scope "/" do
-    pipe_through :oauth_public
+    pipe_through(:oauth_public)
     oauth_routes(:public)
   end
 
   scope "/" do
-    pipe_through :browser
-    pipe_through :user
-    pipe_through :protected
+    pipe_through(:browser)
+    pipe_through(:user)
+    pipe_through(:protected)
     oauth_routes(:protected)
   end
 
   scope "/", BankLambdaWeb do
-    pipe_through :browser
-    pipe_through :user
+    pipe_through(:browser)
+    pipe_through(:user)
 
-    get "/", DashboardController, :index
+    get("/", DashboardController, :index)
   end
 
   scope "/auth", BankLambdaWeb.Auth do
-    pipe_through :browser
-    pipe_through :user
+    pipe_through(:browser)
+    pipe_through(:user)
 
-    get "/login", SessionController, :new
-    post "/login", SessionController, :login
+    get("/login", SessionController, :new)
+    post("/login", SessionController, :login)
 
-    get "/tan", SessionController, :tan
-    post "/tan", SessionController, :confirm_tan
+    get("/tan", SessionController, :tan)
+    post("/tan", SessionController, :confirm_tan)
   end
 
   scope "/api/v1", BankLambdaWeb.Api.V1 do
-    pipe_through :api
-    pipe_through :api_auth
+    pipe_through(:api)
+    pipe_through(:api_auth)
 
-    get "/demo", DemoController, :index
+    get("/demo", DemoController, :index)
 
     scope "/payments" do
-      post "/instant-sepa-credit-transfers", PaymentController, :create
+      post("/instant-sepa-credit-transfers", PaymentController, :payment)
     end
   end
 end
