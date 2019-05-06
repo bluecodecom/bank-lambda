@@ -1,0 +1,2 @@
+<h1>BankLambda</h1>
+<h3>User Dashboard <%= @current_user.email %> <h3>
