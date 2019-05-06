@@ -1,16 +1,23 @@
-
-<h1>Login</h1>
-
-<%= form_for @changeset, Routes.session_path(@conn, :login, @params), fn f -> %>
-  <%= label f, :email %>
-  <%= text_input f, :email, value: "user@example.com" %>
-  <%= error_tag f, :email %>
-
-  <%= label f, :password %>
-  <%= password_input f, :password, value: "secret" %>
-  <%= error_tag f, :password %>
-
-  <div>
-    <%= submit "Login" %>
+<div class="card">
+  <div class="card-header">
+    <strong>Login</strong>
   </div>
-<% end %>
+  <div class="card-body">
+  <%= form_for @changeset, Routes.session_path(@conn, :login, @params), [class: "form"], fn f -> %>
+    <div class="form-group">
+      <%= label f, :email, "Benutzername" %>
+      <%= text_input f, :email, class: "form-control", value: "user@example.com" %>
+      <%= error_tag f, :email %>
+    </div>
+
+    <div class="form-group">
+      <%= label f, :password, "Passwort/PIN" %>
+      <%= password_input f, :password, class: "form-control", value: "secret" %>
+      <%= error_tag f, :password %>
+    </div>
+</div>
+  <div class="card-footer text-center">
+      <%= submit "Login", class: "btn btn-primary"%>
+    </div>
+  <% end %>
+</div>

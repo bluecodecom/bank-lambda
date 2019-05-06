@@ -1,11 +1,17 @@
-<h1>TAN</h1>
-
-<%= form_for @changeset, Routes.session_path(@conn, :confirm_tan, @params), fn f -> %>
-  <%= label f, :tan %>
-  <%= text_input f, :tan %>
-  <%= error_tag f, :tan %>
-
-  <div>
-    <%= submit "Submit" %>
+<div class="card">
+  <div class="card-header">
+    <strong>Enter TAN</strong>
   </div>
-<% end %>
+  <div class="card-body">
+  <%= form_for @changeset, Routes.session_path(@conn, :confirm_tan, @params), [class: "form"], fn f -> %>
+    <div class="form-group">
+      <%= label f, :tan, "TAN" %>
+      <%= text_input f, :tan, class: "form-control" %>
+      <%= error_tag f, :tan %>
+    </div>
+  </div>
+  <div class="card-footer text-center">
+      <%= submit "Confirm", class: "btn btn-primary"%>
+    </div>
+  <% end %>
+</div>
