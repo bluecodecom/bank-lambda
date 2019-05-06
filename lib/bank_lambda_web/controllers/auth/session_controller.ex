@@ -9,17 +9,17 @@ defmodule BankLambdaWeb.Auth.SessionController do
     user_changeset = Accounts.change_user(%User{})
 
     conn
-    |> put_view(BankLambdaWeb.Auth.SessionView)
     |> render("new.html", changeset: user_changeset, params: params)
   end
 
   def login(conn, %{"user" => %{"email" => email, "password" => password}} = params) do
     case Accounts.authenticate_user(email, password) do
       {:ok, %User{} = user} ->
+        oauth_params = oauth_params(params)
+
         conn
         |> put_session(:current_user_id, user.id)
-        |> put_flash(:success, "Welcome back!")
-        |> redirect_after_login(params)
+        |> redirect(to: Routes.session_path(conn, :tan, oauth_params))
 
       {:error, reason} ->
         conn
@@ -28,13 +28,33 @@ defmodule BankLambdaWeb.Auth.SessionController do
     end
   end
 
-  defp redirect_after_login(conn, %{
-         "client_id" => client_id,
-         "redirect_uri" => redirect_uri,
-         "response_type" => response_type
-       }) do
-    params = %{client_id: client_id, redirect_uri: redirect_uri, response_type: response_type}
-    redirect(conn, to: Routes.oauth_authorization_path(conn, :new, params))
+  def tan(conn, params) do
+    user_changeset = Accounts.change_user(%User{})
+
+    conn
+    |> render("tan.html", changeset: user_changeset, params: params)
+  end
+
+  def confirm_tan(conn, params) do
+    # For demo purpose, all tans will be valid
+
+    oauth_params = oauth_params(params)
+
+    conn
+    |> put_flash(:success, "Welcome back!")
+    |> redirect_after_login(oauth_params)
+  end
+
+  defp redirect_after_login(
+         conn,
+         %{
+           client_id: _client_id,
+           redirect_uri: _redirect_uri,
+           response_type: _response_type
+         } = params
+       ) do
+    oauth_params = oauth_params(params)
+    redirect(conn, to: Routes.oauth_authorization_path(conn, :new, oauth_params))
   end
 
   defp redirect_after_login(conn, _params) do
@@ -49,4 +69,14 @@ defmodule BankLambdaWeb.Auth.SessionController do
   end
 
   defp already_logged_in(conn, _opts), do: conn
+
+  def oauth_params(%{
+        "client_id" => client_id,
+        "redirect_uri" => redirect_uri,
+        "response_type" => response_type
+      }) do
+    %{client_id: client_id, redirect_uri: redirect_uri, response_type: response_type}
+  end
+
+  def oauth_params(params), do: params
 end

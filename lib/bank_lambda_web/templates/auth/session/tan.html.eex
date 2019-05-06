@@ -1,0 +1,11 @@
+<h1>TAN</h1>
+
+<%= form_for @changeset, Routes.session_path(@conn, :confirm_tan, @params), fn f -> %>
+  <%= label f, :tan %>
+  <%= text_input f, :tan %>
+  <%= error_tag f, :tan %>
+
+  <div>
+    <%= submit "Submit" %>
+  </div>
+<% end %>

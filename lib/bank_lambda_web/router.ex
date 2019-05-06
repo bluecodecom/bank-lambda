@@ -56,6 +56,9 @@ defmodule BankLambdaWeb.Router do
 
     get "/login", SessionController, :new
     post "/login", SessionController, :login
+
+    get "/tan", SessionController, :tan
+    post "/tan", SessionController, :confirm_tan
   end
 
   scope "/api/v1", BankLambdaWeb.Api.V1 do
