@@ -66,5 +66,9 @@ defmodule BankLambdaWeb.Router do
     pipe_through :api_auth
 
     get "/demo", DemoController, :index
+
+    scope "/payments" do
+      post "/instant-sepa-credit-transfers", PaymentController, :create
+    end
   end
 end
