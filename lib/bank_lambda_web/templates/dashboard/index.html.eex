@@ -9,8 +9,8 @@
   <table class="table">
     <%= for tx <- @transactions do %>
       <tr>
-        <td>
-          <%= tx.creditor_name %>
+        <td class="p-3">
+          <strong><%= tx.creditor_name %></strong>
           <br />
           <small>
           <%= tx.inserted_at |> Date.to_string %>
@@ -19,8 +19,8 @@
           <br />
           <small><%= tx.creditor_iban %></small>
         </td>
-        <td class="text-right">
-          <%= Money.new(tx.instructed_amount || tx.amount || 0, :EUR) |> Money.to_string() %>
+        <td class="text-right p-3">
+          <strong><%= Money.new(tx.instructed_amount || tx.amount || 0, :EUR) |> Money.to_string() %></strong>
         </td>
       </tr>
     <% end %>
