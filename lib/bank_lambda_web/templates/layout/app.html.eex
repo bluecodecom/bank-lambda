@@ -11,7 +11,7 @@
   </head>
   <body style="background-color: orange;">
     <header>
-      <section class="container" style="margin-top: 20px;">
+      <section class="container" style="margin-top: 20px; padding-top: 20px;">
         <h1><span style="background-color: orange; padding: 10px; display: inline-block; height: 60px; width: 60px; text-align: center; font-weight: bold;">λ</span> Bank Lambda</h1>
       </section>
     </header>
