@@ -1,17 +1,25 @@
-<h1>Your recent transactions</h1>
+<div class="card">
+  <div class="card-header">
+    <strong>Your recent transactions</strong>
+  </div>
+  <%= if @transactions == [] do %>
 
-<table>
-  <%= for transaction <- @transactions do %>
-    <tr>
-      <td>
-        <%= transaction.inserted_at |> Date.to_string %>
-        <div class="small text-secondary">
-          <%= transaction.inserted_at |> Time.to_string %>
-        </div>
-      </td>
-      <td class="text-right">
-        <%= Money.new(transaction.amount, :EUR) |> Money.to_string() %>
-      </td>
-    </tr>
+  <div class="card-body"><em>No transactions yet.</em></div>
+  <% else %>
+  <table class="table">
+    <%= for transaction <- @transactions do %>
+      <tr>
+        <td>
+          <%= transaction.inserted_at |> Date.to_string %>
+          <div class="small text-secondary">
+            <%= transaction.inserted_at |> Time.to_string %>
+          </div>
+        </td>
+        <td class="text-right">
+          <%= Money.new(transaction.amount, :EUR) |> Money.to_string() %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
   <% end %>
-</table>
+</div>
