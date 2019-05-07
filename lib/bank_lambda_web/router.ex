@@ -68,7 +68,13 @@ defmodule BankLambdaWeb.Router do
     get("/demo", DemoController, :index)
 
     scope "/payments" do
+      # PISP
       post("/instant-sepa-credit-transfers", PaymentController, :payment)
+    end
+
+    scope "/" do
+      # AISP
+      get("/accounts", AccountController, :index)
     end
   end
 end
