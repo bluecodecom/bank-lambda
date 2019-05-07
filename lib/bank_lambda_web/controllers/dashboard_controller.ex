@@ -1,13 +1,16 @@
 defmodule BankLambdaWeb.DashboardController do
   use BankLambdaWeb, :controller
 
+  require Ecto.Query
+
   alias BankLambda.Accounts.User
 
-  plug :log_in when action in [:index]
+  plug(:log_in when action in [:index])
 
   def index(%{assigns: %{current_user: current_user}} = conn, _params) do
     transactions =
       BankLambda.Payments.Payment
+      |> Ecto.Query.order_by(desc_nulls_last: :inserted_at)
       |> BankLambda.Repo.all()
 
     render(conn, "index.html", current_user: current_user, transactions: transactions)
