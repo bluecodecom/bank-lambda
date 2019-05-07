@@ -7,16 +7,20 @@
   <div class="card-body"><em>No transactions yet.</em></div>
   <% else %>
   <table class="table">
-    <%= for transaction <- @transactions do %>
+    <%= for tx <- @transactions do %>
       <tr>
         <td>
-          <%= transaction.inserted_at |> Date.to_string %>
-          <div class="small text-secondary">
-            <%= transaction.inserted_at |> Time.to_string %>
-          </div>
+          <%= tx.creditor_name %>
+          <br />
+          <small>
+          <%= tx.inserted_at |> Date.to_string %>
+          <%= tx.inserted_at |> Time.to_string %>
+          </small>
+          <br />
+          <small><%= tx.creditor_iban %></small>
         </td>
         <td class="text-right">
-          <%= Money.new(transaction.amount, :EUR) |> Money.to_string() %>
+          <%= Money.new(tx.instructed_amount || tx.amount || 0, :EUR) |> Money.to_string() %>
         </td>
       </tr>
     <% end %>

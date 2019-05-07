@@ -28,11 +28,18 @@ defmodule BankLambdaWeb.Api.V1.PaymentController do
 
     pmt_id = "pmt_#{:crypto.rand_uniform(100_000, 1_000_000)}"
 
-    payment = params["instructedAmount"]
+    payment = %{
+      instructed_amount: get_in(params, ["instructedAmount", "amount"]),
+      instructed_currency: get_in(params, ["instructedAmount", "currency"]),
+      debtor_iban: get_in(params, ["debtorAccount", "iban"]),
+      creditor_iban: get_in(params, ["creditorAccount", "iban"]),
+      creditor_name: get_in(params, ["creditorName"])
+    }
 
-    %Payment{}
-    |> Payment.changeset(payment)
-    |> BankLambda.Repo.insert!()
+    pmt =
+      %Payment{}
+      |> Payment.changeset(payment)
+      |> BankLambda.Repo.insert!()
 
     conn
     |> put_status(201)

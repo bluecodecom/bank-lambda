@@ -15,7 +15,7 @@
       <%= password_input f, :password, class: "form-control", value: "secret" %>
       <%= error_tag f, :password %>
     </div>
-</div>
+  </div>
   <div class="card-footer text-center">
       <%= submit "Login", class: "btn btn-primary"%>
     </div>
